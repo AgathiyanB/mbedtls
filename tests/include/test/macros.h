@@ -190,12 +190,21 @@
         }                                                   \
     } while (0)
 
+#if defined(MBEDTLS_FS_IO)
 #define TEST_HELPER_ASSERT(a) if (!(a))                          \
     {                                                                   \
         mbedtls_fprintf(stderr, "Assertion Failed at %s:%d - %s\n",    \
                         __FILE__, __LINE__, #a);              \
         mbedtls_exit(1);                                              \
     }
+#else
+#define TEST_HELPER_ASSERT(a) if (!(a))                          \
+    {                                                                   \
+        mbedtls_printf("Assertion Failed at %s:%d - %s\n",    \
+                       __FILE__, __LINE__, #a);              \
+        mbedtls_exit(1);                                              \
+    }
+#endif
 
 /** Return the smaller of two values.
  *
